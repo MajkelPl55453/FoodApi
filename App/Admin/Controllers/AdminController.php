@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Admin\Controllers;
+namespace app\Admin\Controllers;
 
-use App\Http\Controllers\Controller;
+use app\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Admin\Config\adminCfg;
+use app\Admin\Config\adminCfg;
 
 class AdminController extends Controller
 {

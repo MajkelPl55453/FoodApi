@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Admin\Controllers\Cms\cPages;
+namespace app\Admin\Controllers\Cms\cPages;
 
 use Illuminate\Http\Request;
 
-class PagesController extends \App\Admin\Controllers\AdminController
+class PagesController extends \app\Admin\Controllers\AdminController
 {
     public function __construct() {
         

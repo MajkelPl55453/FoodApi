@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Admin\Config;
+namespace app\Admin\Config;
 
 class adminCfg {
     private $cfg = [];
@@ -9,7 +9,7 @@ class adminCfg {
         $this->cfg = [
             'menu' => [
                 'pages' => [
-                    'namespace' => 'App\Admin\Controllers\Cms\cPages'
+                    'namespace' => 'app\Admin\Controllers\Cms\cPages'
                 ]
             ]
         ];

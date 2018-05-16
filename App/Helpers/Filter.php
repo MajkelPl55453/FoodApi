@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace app\Helpers;
 
 class Filter {
     public static function getInt($in)
