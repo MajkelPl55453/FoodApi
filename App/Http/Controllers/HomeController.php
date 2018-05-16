@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return response('dziala', 200)->json(\Input::all());
+        return view('welcome');
     }
     
     public function postLogin()

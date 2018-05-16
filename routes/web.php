@@ -11,6 +11,8 @@
 |
 */
 
+Route::any('/', 'HomeController@index');
+
 //Metody GET
 Route::get('/api/getRecipe/{id}', 'ApiController@getGetRecipe');
 Route::get('/api/getCategories', 'ApiController@getGetCategoryTree');
