@@ -96,6 +96,21 @@ class ApiController extends Controller
         return response()->json(['recipe' => $recipe]);
     }
     
+    public function getGetRecipesNameList()
+    {
+        $recipesNamesDb = DB::select("SELECT id, nazwa FROM przepisy ORDER BY nazwa ASC");
+        $names = [];
+        
+        foreach($recipesNamesDb as $recipeNameDb){
+            $names[] = [
+                'id' => $recipeNameDb->id,
+                'name' => $recipeNameDb->nazwa
+            ];
+        }
+        
+        return response()->json(['names' => $names]);
+    }
+    
     public function postLogin(Request $request)
     {
         $data = $request->all();
