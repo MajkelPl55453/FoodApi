@@ -16,18 +16,18 @@ Route::any('/', 'HomeController@index');
 //Metody GET
 Route::get('/api/getRecipe/{id}', 'ApiController@getGetRecipe');
 Route::get('/api/getCategories', 'ApiController@getGetCategoryTree');
-Route::get('/api/getRecipesList', 'ApiController@getGetRecipesList');
+Route::get('/api/getRecipesList/{limit}/{offset}', 'ApiController@getGetRecipesList');
 Route::get('/api/getProductsList', 'ApiController@getGetProductsList');
 Route::get('/api/getStoreCart/{userSession}', 'ApiController@getGetStoreCart');
 
 // Metody PUT
-Route::put('/api/addToCart/{userSession}/{id}/{ammount}', 'ApiController@putAddToCart');
-Route::put('/api/addToFavourites/{userSession}/{id}', 'ApiController@putAddToFavourites');
+Route::put('/api/addToCart/{userid}/{id}/{ammount}', 'ApiController@putAddToCart');
+Route::put('/api/addToFavourites/{userid}/{id}', 'ApiController@putAddToFavourites');
 
 // Metody POST
 Route::post('/api/login', 'ApiController@postLogin');
 Route::post('/api/postRegister', 'ApiController@postRegister');
 
 // Metody DELETE
-Route::delete('/api/removeFromCart/{userSession}/{id}', 'ApiController@deleteRemoveFromCart');
-Route::delete('/api/removeFromFavourites/{userSession}/{id}', 'ApiController@deleteRemoveFromFavourites');
+Route::delete('/api/removeFromCart/{userid}/{id}', 'ApiController@deleteRemoveFromCart');
+Route::delete('/api/removeFromFavourites/{userid}/{id}', 'ApiController@deleteRemoveFromFavourites');

@@ -81,11 +81,11 @@ class ApiController extends Controller
     {
         $id = Filter::getInt($id);
         $recipe = [];
-        $recipeDb = DB::select("SELECT * FROM przepisy WHERE id = :id", ['id' => $id])[0];
+        $recipeDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy WHERE id = :id", ['id' => $id])[0];
 
         $recipe['id'] = $recipeDb->id;
         $recipe['name'] = $recipeDb->nazwa;
-        $recipe['image'] = $recipeDb->zdjecie;
+        $recipe['image'] = 'http://www.foodapi.pl/images/'.$recipeDb->id.'.jpg';
         $recipe['time'] = $recipeDb->czas_przygotowania;
         $recipe['difficulty'] = $recipeDb->trudnosc;
         $recipe['portions'] = $recipeDb->ilosc_porcji;
@@ -102,7 +102,7 @@ class ApiController extends Controller
         $data['login'] = Filter::getString($data['login']);
         $data['password'] = $this->hashPassword(Filter::getString($data['password']));
         
-        $user = DB::select("SELECT * FROM uzytkownicy WHERE id = :id", ['id' => $id]);
+        $user = DB::select("SELECT * FROM uzytkownicy WHERE login = :login", ['login' => $data['login']]);
         
         if(empty($user))
         {
@@ -111,7 +111,7 @@ class ApiController extends Controller
         
         if($user['haslo'] === $data['password'])
         {
-            return response()->json(['status' => 'success', 'message' => 'Poprawnie zalogowano!']);
+            return response()->json(['status' => 'success', 'message' => 'Poprawnie zalogowano!', 'userid' => $user->id, 'apikey' => md5($user->login)]);
         }
         else
         {
@@ -138,6 +138,25 @@ class ApiController extends Controller
         else {
             return response()->json(['status' => 'error', 'message' => 'Wystąpił błąd, prosimy spróbować ponownie za chwilę.']);
         }
+    }
+    
+    public function getGetRecipesList($limit, $offset)
+    {
+        $recipesDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy LIMIT :limit OFFSET :offset", ['limit' => $limit, 'offset' => $offset]);
+        $recipes = [];
+        foreach($recipesDb as $recipeDb)
+        {
+            $recipes[] = [
+                'id' => $recipeDb->id,
+                'nazwa' => $recipeDb->nazwa,
+                'czas_przygotowania' => $recipeDb->czas_przygotowania,
+                'trudnosc' => $recipeDb->trudnosc,
+                'ilosc_porcji' => $recipeDb->ilosc_porcji,
+                'zdjecie' => 'http://www.foodapi.pl/images/'.$recipeDb->id.'.jpg'
+            ];
+        }
+        
+        return response()->json(['recipes' => $recipes]);
     }
     
     private function getProductsForRecipe($id)
