@@ -98,17 +98,17 @@ class ApiController extends Controller
     
     public function getGetRecipesNameList()
     {
-        $recipesNamesDb = DB::select("SELECT DISTINCT(nazwa) FROM przepisy ORDER BY nazwa ASC");
+        $recipesNamesDb = DB::select("SELECT id, nazwa FROM przepisy ORDER BY nazwa ASC");
         $names = [];
         
         foreach($recipesNamesDb as $recipeNameDb){
-            $names[] = [
-                'id' => 0,
+            $names[$this->decode($recipeNameDb->nazwa)] = [
+                'id' => $recipeNameDb->id,
                 'name' => $this->decode($recipeNameDb->nazwa)
             ];
         }
         
-        return response()->json(['names' => $names]);
+        return response()->json(['names' => array_values($names)]);
     }
     
     private function decode($s)
