@@ -84,11 +84,11 @@ class ApiController extends Controller
         $recipeDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy WHERE id = :id", ['id' => $id])[0];
 
         $recipe['id'] = $recipeDb->id;
-        $recipe['name'] = $recipeDb->nazwa;
+        $recipe['name'] = $this->decode($recipeDb->nazwa);
         $recipe['image'] = 'http://www.foodapi.pl/images/'.$recipeDb->id.'.jpg';
-        $recipe['time'] = $recipeDb->czas_przygotowania;
-        $recipe['difficulty'] = $recipeDb->trudnosc;
-        $recipe['portions'] = $recipeDb->ilosc_porcji;
+        $recipe['time'] = $this->decode($recipeDb->czas_przygotowania);
+        $recipe['difficulty'] = $this->decode($recipeDb->trudnosc);
+        $recipe['portions'] = $this->decode($recipeDb->ilosc_porcji);
         $recipe['category'] = $this->getCategoryPath($recipeDb->kategoria);
         $recipe['products'] = $this->getProductsForRecipe($id);
         $recipe['steps'] = $this->getStepsForRecipe($id);
@@ -113,7 +113,7 @@ class ApiController extends Controller
     
     private function decode($s)
     {
-        return html_entity_decode(htmlspecialchars_decode($s));
+        return trim(html_entity_decode(htmlspecialchars_decode($s)));
     }
     
     public function postLogin(Request $request)
