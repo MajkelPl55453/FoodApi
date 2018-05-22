@@ -131,14 +131,14 @@ class ApiController extends Controller
         
         if($user['haslo'] === $data['password'])
         {
-            return response()->json(['status' => 'success', 'message' => 'Poprawnie zalogowano!', 'userid' => $user->id, 'apikey' => md5($user->login)]);
+            return response()->json(['status' => 'success', 'message' => 'Poprawnie zalogowano!', 'userid' => $user->id]);
         }
         else
         {
-            return response()->json(['status' => 'error', 'message' => 'Błędne hasło']);
+            return response()->json(['status' => 'error', 'message' => 'Błędne hasło', 'userid' => 0]);
         }
         
-        return response()->json(['status' => 'error', 'message' => 'error']);
+        return response()->json(['status' => 'error', 'message' => 'error', 'userid' => 0]);
     }
     
     public function postRegister(Request $request)
