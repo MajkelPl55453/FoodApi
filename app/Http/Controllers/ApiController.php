@@ -175,20 +175,6 @@ class ApiController extends Controller
         return response()->json(['recipes' => $this->getRecipes($params, $where)]);
     }
     
-    public function getGetRecipesList($category = 0, $limit, $offset)
-    {
-        $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
-        $where = [];
-        if($category > 0)
-        {
-            $params['kategoria'] = $category;
-            $params['kategoria1'] = $category;
-            $where['kategoria'] = 'kategoria IN (SELECT id FROM kategorie WHERE root = :kategoria OR id = :kategoria1)';
-        }
-        
-        return response()->json(['recipes' => $this->getRecipes($params, $where)]);
-    }
-    
     public function getGetRecipesListByPopularity($limit, $offset)
     {
         $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
