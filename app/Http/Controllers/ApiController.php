@@ -179,7 +179,7 @@ class ApiController extends Controller
     {
         $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
 
-        return response()->json(['recipes' => $this->getRecipes($params, $where)]);
+        return response()->json(['recipes' => $this->getRecipes($params)]);
     }
     
     private function getRecipes($params = ['limit' => 10, 'offset' => 0, 'orderBy' => 'liczba_wejsc', 'orderSort' => 'DESC'], $where = [])
