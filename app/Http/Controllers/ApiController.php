@@ -169,7 +169,7 @@ class ApiController extends Controller
             $where['kategoria'] = 'kategoria = :kategoria';
         }
         
-        $recipesDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy " . (!empty($where) ? 'WHERE ' . implode(' AND ', $where) : '') . " LIMIT :limit OFFSET :offset", $params);
+        $recipesDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji, kategoria FROM przepisy " . (!empty($where) ? 'WHERE ' . implode(' AND ', $where) : '') . " LIMIT :limit OFFSET :offset", $params);
         $recipes = [];
         foreach($recipesDb as $recipeDb)
         {
@@ -179,7 +179,8 @@ class ApiController extends Controller
                 'czas_przygotowania' => $recipeDb->czas_przygotowania,
                 'trudnosc' => $recipeDb->trudnosc,
                 'ilosc_porcji' => $recipeDb->ilosc_porcji,
-                'zdjecie' => 'http://www.foodapi.pl/images/'.$recipeDb->id.'.jpg'
+                'zdjecie' => 'http://www.foodapi.pl/images/'.$recipeDb->id.'.jpg',
+                'kategoria' => $recipeDb->kategoria
             ];
         }
         
