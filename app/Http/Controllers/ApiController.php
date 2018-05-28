@@ -79,7 +79,7 @@ class ApiController extends Controller
     
     public function getGetRecipe($id)
     {
-        $up = DB::update('UPDATE przepisy SET liczba_wejsc = liczba_wejsc + 1');
+        $up = DB::update('UPDATE przepisy SET liczba_wejsc = liczba_wejsc + 1 WHERE id = :id', ['id' => $id]);
         
         $id = Filter::getInt($id);
         $recipe = [];
