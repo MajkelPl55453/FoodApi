@@ -81,8 +81,7 @@ class ApiController extends Controller
     {
         $id = Filter::getInt($id);
         $recipe = [];
-        $recipeDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy WHERE id = :id", ['id' => $id])[0];
-
+        $recipeDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji, kategoria FROM przepisy WHERE id = :id", ['id' => $id])[0];
         $recipe['id'] = $recipeDb->id;
         $recipe['name'] = $this->decode($recipeDb->nazwa);
         $recipe['image'] = 'http://www.foodapi.pl/images/'.$recipeDb->id.'.jpg';
