@@ -79,6 +79,8 @@ class ApiController extends Controller
     
     public function getGetRecipe($id)
     {
+        $up = DB::update('UPDATE przepisy SET liczba_wejsc = liczba_wejsc + 1');
+        
         $id = Filter::getInt($id);
         $recipe = [];
         $recipeDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji, kategoria FROM przepisy WHERE id = :id", ['id' => $id])[0];
@@ -170,7 +172,33 @@ class ApiController extends Controller
             $where['kategoria'] = 'kategoria IN (SELECT id FROM kategorie WHERE root = :kategoria OR id = :kategoria1)';
         }
         
-        $recipesDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy " . (!empty($where) ? 'WHERE ' . implode(' AND ', $where) : '') . " LIMIT :limit OFFSET :offset", $params);
+        return response()->json(['recipes' => $this->getRecipes($params, $where)]);
+    }
+    
+    public function getGetRecipesList($category = 0, $limit, $offset)
+    {
+        $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
+        $where = [];
+        if($category > 0)
+        {
+            $params['kategoria'] = $category;
+            $params['kategoria1'] = $category;
+            $where['kategoria'] = 'kategoria IN (SELECT id FROM kategorie WHERE root = :kategoria OR id = :kategoria1)';
+        }
+        
+        return response()->json(['recipes' => $this->getRecipes($params, $where)]);
+    }
+    
+    public function getGetRecipesListByPopularity($limit, $offset)
+    {
+        $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
+
+        return response()->json(['recipes' => $this->getRecipes($params, $where)]);
+    }
+    
+    private function getRecipes($params = ['limit' => 10, 'offset' => 0, 'orderBy' => 'liczba_wejsc', 'orderSort' => 'DESC'], $where = [])
+    {
+        $recipesDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy " . (!empty($where) ? 'WHERE ' . implode(' AND ', $where) : '') . " ORDER BY :orderBy :orderSort LIMIT :limit OFFSET :offset", $params);
         $recipes = [];
         foreach($recipesDb as $recipeDb)
         {
@@ -184,7 +212,7 @@ class ApiController extends Controller
             ];
         }
         
-        return response()->json(['recipes' => $recipes]);
+        return $recipes;
     }
     
     private function getProductsForRecipe($id)
