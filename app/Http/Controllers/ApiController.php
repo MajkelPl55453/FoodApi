@@ -127,7 +127,7 @@ class ApiController extends Controller
         
         if(empty($user))
         {
-            return response()->json(['status' => 'error', 'message' => 'Brak użytkownika o takim loginie!']);
+            return response()->json(['status' => 'error', 'message' => 'Brak uĹĽytkownika o takim loginie!']);
         }
         
         if($user['haslo'] === $data['password'])
@@ -136,7 +136,7 @@ class ApiController extends Controller
         }
         else
         {
-            return response()->json(['status' => 'error', 'message' => 'Błędne hasło', 'userid' => 0]);
+            return response()->json(['status' => 'error', 'message' => 'BĹ‚Ä™dne hasĹ‚o', 'userid' => 0]);
         }
         
         return response()->json(['status' => 'error', 'message' => 'error', 'userid' => 0]);
@@ -154,16 +154,16 @@ class ApiController extends Controller
         
         if($db)
         {
-            return response()->json(['status' => 'success', 'message' => 'Zarejestrowano pomyślnie!']);
+            return response()->json(['status' => 'success', 'message' => 'Zarejestrowano pomyĹ›lnie!']);
         }
         else {
-            return response()->json(['status' => 'error', 'message' => 'Wystąpił błąd, prosimy spróbować ponownie za chwilę.']);
+            return response()->json(['status' => 'error', 'message' => 'WystÄ…piĹ‚ bĹ‚Ä…d, prosimy sprĂłbowaÄ‡ ponownie za chwilÄ™.']);
         }
     }
     
     public function getGetRecipesList($category = 0, $limit, $offset)
     {
-        $params = ['limit' => $limit, 'offset' => $offset];
+        $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
         $where = [];
         if($category > 0)
         {
