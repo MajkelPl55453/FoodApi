@@ -166,7 +166,8 @@ class ApiController extends Controller
         if($category > 0)
         {
             $params['kategoria'] = $category;
-            $where['kategoria'] = 'kategoria IN (SELECT id FROM kategorie WHERE root = :kategoria OR id = :kategoria)';
+            $params['kategoria1'] = $category;
+            $where['kategoria'] = 'kategoria IN (SELECT id FROM kategorie WHERE root = :kategoria OR id = :kategoria1)';
         }
         
         $recipesDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy " . (!empty($where) ? 'WHERE ' . implode(' AND ', $where) : '') . " LIMIT :limit OFFSET :offset", $params);
