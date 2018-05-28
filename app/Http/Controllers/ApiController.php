@@ -180,8 +180,7 @@ class ApiController extends Controller
                 'czas_przygotowania' => $recipeDb->czas_przygotowania,
                 'trudnosc' => $recipeDb->trudnosc,
                 'ilosc_porcji' => $recipeDb->ilosc_porcji,
-                'zdjecie' => 'http://www.foodapi.pl/images/'.$recipeDb->id.'.jpg',
-                'kategoria' => $recipeDb->kategoria
+                'zdjecie' => 'http://www.foodapi.pl/images/'.$recipeDb->id.'.jpg'
             ];
         }
         
