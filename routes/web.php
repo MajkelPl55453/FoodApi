@@ -19,7 +19,7 @@ Route::get('/api/getCategories', 'ApiController@getGetCategoryTree');
 Route::get('/api/getProductsList', 'ApiController@getGetProductsList');
 Route::get('/api/getRecipesNameList', 'ApiController@getGetRecipesNameList');
 Route::get('/api/getStoreCart/{userSession}', 'ApiController@getGetStoreCart');
-Route::get('/api/getRecipesList/{limit}/{offset}', 'ApiController@getGetRecipesList');
+Route::get('/api/getRecipesList/{category}/{limit}/{offset}', 'ApiController@getGetRecipesList');
 
 // Metody PUT
 Route::put('/api/addToCart/{userid}/{id}/{ammount}', 'ApiController@putAddToCart');

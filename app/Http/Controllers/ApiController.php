@@ -159,9 +159,17 @@ class ApiController extends Controller
         }
     }
     
-    public function getGetRecipesList($limit, $offset)
+    public function getGetRecipesList($category = 0, $limit, $offset)
     {
-        $recipesDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy LIMIT :limit OFFSET :offset", ['limit' => $limit, 'offset' => $offset]);
+        $params = ['limit' => $limit, 'offset' => $offset];
+        $where = [];
+        if($category > 0)
+        {
+            $params['kategoria'] = $category;
+            $where['kategoria'] = 'kategoria = :kategoria';
+        }
+        
+        $recipesDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy " . (!empty($where) ? implode(' AND ', $where) : '') . " LIMIT :limit OFFSET :offset", $params);
         $recipes = [];
         foreach($recipesDb as $recipeDb)
         {
