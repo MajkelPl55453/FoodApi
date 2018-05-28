@@ -184,7 +184,10 @@ class ApiController extends Controller
     
     private function getRecipes($params = ['limit' => 10, 'offset' => 0, 'orderBy' => 'liczba_wejsc', 'orderSort' => 'DESC'], $where = [])
     {
-        $recipesDb = DB::select("SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy " . (!empty($where) ? 'WHERE ' . implode(' AND ', $where) : '') . " ORDER BY :orderBy :orderSort LIMIT :limit OFFSET :offset", $params);
+        $sql = "SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy " . (!empty($where) ? 'WHERE ' . implode(' AND ', $where) : '') . " ORDER BY ".$params['orderBy']." ".$params['orderSort']." LIMIT :limit OFFSET :offset";
+        unset($params['orderBy']);
+        unset($params['orderSort']);
+        $recipesDb = DB::select($sql, $params);
         $recipes = [];
         foreach($recipesDb as $recipeDb)
         {
