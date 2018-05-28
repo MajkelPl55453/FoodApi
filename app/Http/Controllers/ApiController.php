@@ -180,7 +180,13 @@ class ApiController extends Controller
     
     private function getProductsForRecipe($id)
     {
-        return DB::select("SELECT p.*, pp.* FROM produkty p LEFT JOIN przepisy_produkty pp ON pp.id_produktu = p.id WHERE pp.id_przepisu = :id", ['id' => $id]);
+        $products = [];
+        $productsDb = DB::select("SELECT p.*, pp.* FROM produkty p LEFT JOIN przepisy_produkty pp ON pp.id_produktu = p.id WHERE pp.id_przepisu = :id", ['id' => $id]);
+        foreach($productsDb as $prodDb)
+        {
+            $products[$prodDb->id] = $prodDb;
+        }
+        return $products;
     }
     
     private function getStepsForRecipe($id)
