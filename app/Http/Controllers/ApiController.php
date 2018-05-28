@@ -184,7 +184,7 @@ class ApiController extends Controller
     
     private function getRecipes($params = ['limit' => 10, 'offset' => 0, 'orderBy' => 'liczba_wejsc', 'orderSort' => 'DESC'], $where = [])
     {
-        $sql = "SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji FROM przepisy " . (!empty($where) ? 'WHERE ' . implode(' AND ', $where) : '') . " ORDER BY ".$params['orderBy']." ".$params['orderSort']." LIMIT :limit OFFSET :offset";
+        $sql = "SELECT id, nazwa, czas_przygotowania, trudnosc, ilosc_porcji, liczba_wejsc FROM przepisy " . (!empty($where) ? 'WHERE ' . implode(' AND ', $where) : '') . " ORDER BY ".$params['orderBy']." ".$params['orderSort']." LIMIT :limit OFFSET :offset";
         unset($params['orderBy']);
         unset($params['orderSort']);
         $recipesDb = DB::select($sql, $params);
@@ -197,7 +197,8 @@ class ApiController extends Controller
                 'czas_przygotowania' => $recipeDb->czas_przygotowania,
                 'trudnosc' => $recipeDb->trudnosc,
                 'ilosc_porcji' => $recipeDb->ilosc_porcji,
-                'zdjecie' => 'http://www.foodapi.pl/images/'.$recipeDb->id.'.jpg'
+                'zdjecie' => 'http://www.foodapi.pl/images/'.$recipeDb->id.'.jpg',
+                'liczba' => $recipeDb->liczba_wejsc
             ];
         }
         
