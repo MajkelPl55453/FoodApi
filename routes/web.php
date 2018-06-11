@@ -28,7 +28,7 @@ Route::put('/api/addToFavourites/{userid}/{id}', 'ApiController@putAddToFavourit
 
 // Metody POST
 Route::post('/api/login', 'ApiController@postLogin');
-Route::post('/api/postRegister', 'ApiController@postRegister');
+Route::post('/api/register', 'ApiController@postRegister');
 
 // Metody DELETE
 Route::delete('/api/removeFromCart/{userid}/{id}', 'ApiController@deleteRemoveFromCart');

@@ -120,14 +120,18 @@ class ApiController extends Controller
     public function postLogin(Request $request)
     {
         $data = $request->all();
-        $data['login'] = Filter::getString($data['login']);
+        
+        if(!isset($data['username']) || !isset($data['password']))
+            return response()->json(['status' => 'error', 'message' => 'Brak odpowiednich danych!']);
+            
+        $data['username'] = Filter::getString($data['username']);
         $data['password'] = $this->hashPassword(Filter::getString($data['password']));
         
-        $user = DB::select("SELECT * FROM uzytkownicy WHERE login = :login", ['login' => $data['login']]);
+        $user = DB::select("SELECT * FROM uzytkownicy WHERE login = :username", ['username' => $data['username']]);
         
         if(empty($user))
         {
-            return response()->json(['status' => 'error', 'message' => 'Brak uĹĽytkownika o takim loginie!']);
+            return response()->json(['status' => 'error', 'message' => 'Brak użytkownika o takim loginie!']);
         }
         
         if($user['haslo'] === $data['password'])
@@ -136,7 +140,7 @@ class ApiController extends Controller
         }
         else
         {
-            return response()->json(['status' => 'error', 'message' => 'BĹ‚Ä™dne hasĹ‚o', 'userid' => 0]);
+            return response()->json(['status' => 'error', 'message' => 'Błędne hasło', 'userid' => 0]);
         }
         
         return response()->json(['status' => 'error', 'message' => 'error', 'userid' => 0]);
@@ -145,19 +149,23 @@ class ApiController extends Controller
     public function postRegister(Request $request)
     {
         $data = $request->all();
+        
+        if(!isset($data['username']) || !isset($data['password']) || !isset($data['email']))
+            return response()->json(['status' => 'error', 'message' => 'Brak odpowiednich danych!']);
+        
         $post = [];
-        $post['login'] = Filter::getString($data['login']);
+        $post['username'] = Filter::getString($data['username']);
         $post['password'] = $this->hashPassword(Filter::getString($data['password']));
         $post['email'] = Filter::getString($data['email']);
         
-        $db = DB::insert("INSERT INTO uzytkownicy (login, email, haslo) VALUES (:login, :password, :email)", $post);
+        $db = DB::insert("INSERT INTO uzytkownicy (id, login, email, haslo) VALUES (null, :username, :password, :email)", $post);
         
         if($db)
         {
-            return response()->json(['status' => 'success', 'message' => 'Zarejestrowano pomyĹ›lnie!']);
+            return response()->json(['status' => 'success', 'message' => 'Zarejestrowano pomyślnie!']);
         }
         else {
-            return response()->json(['status' => 'error', 'message' => 'WystÄ…piĹ‚ bĹ‚Ä…d, prosimy sprĂłbowaÄ‡ ponownie za chwilÄ™.']);
+            return response()->json(['status' => 'error', 'message' => 'Wystł błąd, prosimy spróbować ponownie za chwilę.']);
         }
     }
     
