@@ -158,7 +158,10 @@ class ApiController extends Controller
         $post['password'] = $this->hashPassword(Filter::getString($data['password']));
         $post['email'] = Filter::getString($data['email']);
         
-        $db = DB::insert("INSERT INTO uzytkownicy (id, login, email, haslo) VALUES (null, :username, :password, :email)", $post);
+        $id = DB::select("SELECT max(id) FROM uzytkownicy");
+        $post['id'] = (int)$id+1;
+        
+        $db = DB::insert("INSERT INTO uzytkownicy (id, login, email, haslo) VALUES (:id, :username, :password, :email)", $post);
         
         if($db)
         {
