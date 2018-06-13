@@ -179,7 +179,8 @@ class ApiController extends Controller
 //        {
 //            return response()->json(['recipes' => []]);
 //        }
-        $data['ids'] = Filter::getString($data['ids']);
+        $data = [];
+//        $data['ids'] = Filter::getString($data['ids']);
         $data['ids'] = '309,248,3';
         $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
         $where['id'] = 'id IN ('.$data['ids'].')';
