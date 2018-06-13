@@ -176,17 +176,9 @@ class ApiController extends Controller
     {
         $data = $request->all();
         
-            return response()->json(['recipes' => [[
-                'id' => 0,
-                'nazwa' => $data['ids'],
-                'czas_przygotowania' => '0',
-                'trudnosc' => '0',
-                'ilosc_porcji' => '0',
-                'zdjecie' => 'jj',
-                'liczba' => 0
-            ]]]);
         if(empty($data['ids']))
         {
+            return response()->json(['recipes' => []]);
         }
         $data['ids'] = Filter::getString($data['ids']);
         $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
