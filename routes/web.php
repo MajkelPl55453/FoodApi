@@ -29,7 +29,7 @@ Route::put('/api/addToFavourites/{userid}/{id}', 'ApiController@putAddToFavourit
 // Metody POST
 Route::post('/api/login', 'ApiController@postLogin');
 Route::post('/api/register', 'ApiController@postRegister');
-Route::get('/api/getRecipesListByIds/{limit}/{offset}', 'ApiController@getGetRecipesListByIds');
+Route::post('/api/getRecipesListByIds/{limit}/{offset}', 'ApiController@getGetRecipesListByIds');
 
 // Metody DELETE
 Route::delete('/api/removeFromCart/{userid}/{id}', 'ApiController@deleteRemoveFromCart');

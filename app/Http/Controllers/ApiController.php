@@ -172,16 +172,15 @@ class ApiController extends Controller
         }
     }
     
-    public function getGetRecipesListByIds(/*Request $request,*/ $limit = 10, $offset = 0)
+    public function getGetRecipesListByIds(Request $request, $limit = 10, $offset = 0)
     {
-//        $data = $request->all();
-//        if(empty($data['ids']))
-//        {
-//            return response()->json(['recipes' => []]);
-//        }
-        $data = [];
-//        $data['ids'] = Filter::getString($data['ids']);
-        $data['ids'] = '309,248,3';
+        $data = $request->all();
+        throw new Eception($data['ids']);
+        if(empty($data['ids']))
+        {
+            return response()->json(['recipes' => []]);
+        }
+        $data['ids'] = Filter::getString($data['ids']);
         $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
         $where['id'] = 'id IN ('.$data['ids'].')';
         
@@ -220,7 +219,7 @@ class ApiController extends Controller
         {
             $recipes[] = [
                 'id' => $recipeDb->id,
-                'nazwa' => $recipeDb->nazwa,
+                'nazwa' => $this->decode($recipeDb->nazwa),
                 'czas_przygotowania' => $recipeDb->czas_przygotowania,
                 'trudnosc' => $recipeDb->trudnosc,
                 'ilosc_porcji' => $recipeDb->ilosc_porcji,
