@@ -175,10 +175,18 @@ class ApiController extends Controller
     public function getGetRecipesListByIds(Request $request, $limit = 10, $offset = 0)
     {
         $data = $request->all();
-        throw new Eception($data['ids']);
+        
+            return response()->json(['recipes' => [[
+                'id' => 0,
+                'nazwa' => $data['ids'],
+                'czas_przygotowania' => '0',
+                'trudnosc' => '0',
+                'ilosc_porcji' => '0',
+                'zdjecie' => 'jj',
+                'liczba' => 0
+            ]]]);
         if(empty($data['ids']))
         {
-            return response()->json(['recipes' => []]);
         }
         $data['ids'] = Filter::getString($data['ids']);
         $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
