@@ -172,6 +172,24 @@ class ApiController extends Controller
         }
     }
     
+    public function getGetRecipesListByIds(Request $request, $limit = 10, $offset = 0)
+    {
+        $data = $request->all();
+        if(empty($data['ids']))
+        {
+            return response()->json(['recipes' => []]);
+        }
+        $data['ids'] = Filter::getString($data['ids']);
+        $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
+        $where = [];
+        if($category > 0)
+        {
+            $where['id'] = 'id IN ('.$data['ids'].')';
+        }
+        
+        return response()->json(['recipes' => $this->getRecipes($params, $where)]);
+    }
+    
     public function getGetRecipesList($category = 0, $limit, $offset)
     {
         $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
