@@ -181,11 +181,7 @@ class ApiController extends Controller
         }
         $data['ids'] = Filter::getString($data['ids']);
         $params = ['limit' => $limit, 'offset' => $offset, 'orderBy' => 'id', 'orderSort' => 'ASC'];
-        $where = [];
-        if($category > 0)
-        {
-            $where['id'] = 'id IN ('.$data['ids'].')';
-        }
+        $where['id'] = 'id IN ('.$data['ids'].')';
         
         return response()->json(['recipes' => $this->getRecipes($params, $where)]);
     }
