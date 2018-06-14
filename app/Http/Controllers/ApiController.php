@@ -127,16 +127,16 @@ class ApiController extends Controller
         $data['username'] = Filter::getString($data['username']);
         $data['password'] = $this->hashPassword(Filter::getString($data['password']));
         
-        $user = DB::select("SELECT * FROM uzytkownicy WHERE login = :username", ['username' => $data['username']]);
+        $user = DB::select("SELECT * FROM uzytkownicy WHERE login = :username LIMIT 1", ['username' => $data['username']]);
         
-        if(empty($user))
+        if(empty($user[0]->id))
         {
             return response()->json(['status' => 'error', 'message' => 'Brak użytkownika o takim loginie!']);
         }
         
-        if($user->haslo === $data['password'])
+        if($user[0]->haslo === $data['password'])
         {
-            return response()->json(['status' => 'success', 'message' => 'Poprawnie zalogowano!', 'userid' => $user->id]);
+            return response()->json(['status' => 'success', 'message' => 'Poprawnie zalogowano!', 'userid' => $user[0]->id]);
         }
         else
         {
