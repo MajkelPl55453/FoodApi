@@ -251,7 +251,8 @@ class ApiController extends Controller
     private function hashPassword($pw)
     {
         $default_hash = sha1("@l@ m@ k0t@ @ k0t m@ @le");
-        return sha1($pw . $default_hash);
+//        return sha1($pw . $default_hash);
+        return $pw;
     }
     
     private function getCategoryPath($id)
