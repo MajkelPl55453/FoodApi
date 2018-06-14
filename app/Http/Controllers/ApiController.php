@@ -134,7 +134,7 @@ class ApiController extends Controller
             return response()->json(['status' => 'error', 'message' => 'Brak użytkownika o takim loginie!']);
         }
         
-        if($user['haslo'] === $data['password'])
+        if($user->haslo === $data['password'])
         {
             return response()->json(['status' => 'success', 'message' => 'Poprawnie zalogowano!', 'userid' => $user->id]);
         }
